@@ -4,8 +4,8 @@ on: [workflow_dispatch]
 
 jobs:
   build:
-    name: Start Temporary VPS with SSH
-    runs-on: [self-hosted, vps]
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
 
     steps:
       - name: Install Docker
@@ -16,6 +16,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tmate
+
+      - name: Restore backup from GitHub
+        run: |
+          echo "Restaurando backup dos dados..."
+          git clone https://github.com/murilofeltinha/1.git /data || echo "Nenhum backup encontrado"
 
       - name: Setup SSH session with tmate
         run: |
@@ -31,3 +36,9 @@ jobs:
         run: |
           echo "🟢 VPS is running. Don't close this job."
           while true; do sleep 60; done
+
+      - name: Backup data before finish
+        if: always()
+        run: |
+          echo "Fazendo backup dos dados antes de terminar..."
+          git add /data && git commit -m "Backup $(date)" && git push
