@@ -5,7 +5,7 @@ on: [workflow_dispatch]
 jobs:
   build:
     name: Start Temporary VPS with SSH
-    runs-on: self-hosted
+    runs-on: [self-hosted, vps]
 
     steps:
       - name: Install Docker
