@@ -12,7 +12,7 @@ jobs:
       - name: Trigger bot-deploy.yml workflow
         uses: peter-evans/workflow-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
           repository: ${{ github.repository }}
           workflow: 'bot-deploy.yml'
           ref: main
